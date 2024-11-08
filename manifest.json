@@ -2,5 +2,11 @@
     "manifest_version": 3,
     "name": "BioLinkList",
     "version": "1.0.0",
-    "description": "なんか適当に作るぜ"
+    "description": "なんか適当に作るぜ",
+    "content_scripts": [
+    {
+        "matches": [ "https://vrchat.com/*"],
+        "js": [ "main.js" ]
+    }
+    ]
   }
