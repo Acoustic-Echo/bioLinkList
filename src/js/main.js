@@ -13,8 +13,6 @@ const getToken = () => {
             const DATA = xhr.response;
             const JSON_DATA = JSON.parse(DATA);
             token = JSON_DATA.token
-            ;
-            console.log(token);
           } else {
             console.log(`Error: ${xhr.status}`);
           }
