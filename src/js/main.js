@@ -3,11 +3,12 @@ const GET_FRIENDS = "https://vrchat.com/api/1/auth/user/friends?n=100";
 var token = "";
 var onlineFriendsList;
 var offlineFriendsList;
+var frag = false;
 //読み込み終了時リスナー
 window.addEventListener('load', () => getToken(), false);
 
 //トークン取得
-const getToken = () => {
+const getToken = async () => {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", GET_TOKEN);
   xhr.send();
@@ -20,27 +21,33 @@ const getToken = () => {
           console.log(`Error: ${xhr.status}`);
         }
   }
-  getOnlineFriends();
-  getOfflineFriends();
+  await getOnlineFriends();
+  await getOfflineFriends();
+  test();
 };
 
+const test = () => {
+  console.log(onlineFriendsList);
+  console.log(offlineFriendsList);
+}
+
 //オンラインフレンド取得
-const getOnlineFriends = () => {
+const getOnlineFriends = async () => {
   var url = GET_FRIENDS;
   url += "&offline=false";
-  fetchFriends(url).then(result => {
-    console.log(result);
+  await fetchFriends(url).then(result => {
+    // console.log(result);
     onlineFriendsList = result;
   })
   .catch(error => {console.error(error)});
 };
 
 //オフラインフレンド取得
-const getOfflineFriends = () => {
+const getOfflineFriends = async () => {
   var url = GET_FRIENDS;
   url += "&offline=true";
-  fetchFriends(url).then(result => {
-    console.log(result);
+  await fetchFriends(url).then(result => {
+    // console.log(result);
     offlineFriendsList = result;
   })
   .catch(error => {console.error(error)});
