@@ -1,7 +1,8 @@
 const GET_TOKEN = "https://vrchat.com/api/1/auth";
 const GET_FRIENDS = "https://vrchat.com/api/1/auth/user/friends?n=100";
 var token = "";
-var friendsList;
+var onlineFriendsList;
+var offlineFriendsList;
 //読み込み終了時リスナー
 window.addEventListener('load', () => getToken(), false);
 
@@ -20,28 +21,44 @@ const getToken = () => {
         }
   }
   getOnlineFriends();
+  getOfflineFriends();
 };
 
+//オンラインフレンド取得
 const getOnlineFriends = () => {
-  var count = 100;
   var url = GET_FRIENDS;
-  var jsonData;
+  url += "&offline=false";
   fetchFriends(url).then(result => {
     console.log(result);
-    friendsList = result;
+    onlineFriendsList = result;
   })
   .catch(error => {console.error(error)});
 };
 
+//オフラインフレンド取得
+const getOfflineFriends = () => {
+  var url = GET_FRIENDS;
+  url += "&offline=true";
+  fetchFriends(url).then(result => {
+    console.log(result);
+    offlineFriendsList = result;
+  })
+  .catch(error => {console.error(error)});
+};
+
+//フレンド取得API
 const fetchFriends = async (url) => {
   var jsonData = [];
   var elementNum = 100;
+  var count = 0;
+  var countUrl = url;
   for(let i=0;i<5;i++){
     if(elementNum >= 100){
-      const RESPONCE = await fetch(GET_FRIENDS);
+      const RESPONCE = await fetch(countUrl);
       const JSON_DATA = await RESPONCE.json();
       elementNum = Object.keys(JSON_DATA).length;
-      console.log(elementNum);
+      count += elementNum;
+      countUrl = url + "&offset=" + (count+1);
       jsonData.push(JSON_DATA);
     }else{
       break;
