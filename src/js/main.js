@@ -1,9 +1,10 @@
 const GET_TOKEN = "https://vrchat.com/api/1/auth";
 const GET_FRIENDS = "https://vrchat.com/api/1/auth/user/friends?n=100";
 var token = "";
-var onlineFriendsList;
-var offlineFriendsList;
-var frag = false;
+var onlineFriendsList = [];
+var offlineFriendsList = [];
+var friendsList = [];
+var twitter = [];
 //読み込み終了時リスナー
 window.addEventListener('load', () => getToken(), false);
 
@@ -21,23 +22,34 @@ const getToken = async () => {
           console.log(`Error: ${xhr.status}`);
         }
   }
-  await getOnlineFriends();
-  await getOfflineFriends();
+  await getFriends();
   test();
 };
 
+//フィールド値チェック
 const test = () => {
   console.log(onlineFriendsList);
   console.log(offlineFriendsList);
+  console.log(friendsList);
 }
+
+//フレンドリスト取得
+const getFriends = async () =>{
+  await getOnlineFriends();
+  await getOfflineFriends();
+  friendsList = onlineFriendsList.concat(offlineFriendsList);
+}
+
 
 //オンラインフレンド取得
 const getOnlineFriends = async () => {
   var url = GET_FRIENDS;
   url += "&offline=false";
   await fetchFriends(url).then(result => {
-    // console.log(result);
-    onlineFriendsList = result;
+    const resCount = Object.keys(result).length;
+    for(let i=0;i<resCount;i++){
+      onlineFriendsList = onlineFriendsList.concat(result[i]);
+    }
   })
   .catch(error => {console.error(error)});
 };
@@ -47,8 +59,10 @@ const getOfflineFriends = async () => {
   var url = GET_FRIENDS;
   url += "&offline=true";
   await fetchFriends(url).then(result => {
-    // console.log(result);
-    offlineFriendsList = result;
+    const resCount = Object.keys(result).length;
+    for(let i=0;i<resCount;i++){
+      offlineFriendsList = offlineFriendsList.concat(result[i]);
+    }
   })
   .catch(error => {console.error(error)});
 };
