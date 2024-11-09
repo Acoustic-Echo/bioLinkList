@@ -1,28 +1,14 @@
-const GET_TOKEN = "https://vrchat.com/api/1/auth";
 const GET_FRIENDS = "https://vrchat.com/api/1/auth/user/friends?n=100";
-var token = "";
 var onlineFriendsList = [];
 var offlineFriendsList = [];
 var friendsList = [];
-var twitter = new Array();
+var twitter = [];
 var filTwitterList = [];
 //読み込み終了時リスナー
 window.addEventListener('load', () => getToken(), false);
 
 //トークン取得
 const getToken = async () => {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", GET_TOKEN);
-  xhr.send();
-  xhr.onload = () =>{
-      if (xhr.readyState == 4 && xhr.status == 200) {
-          const DATA = xhr.response;
-          const JSON_DATA = JSON.parse(DATA);
-          token = JSON_DATA.token
-        } else {
-          console.log(`Error: ${xhr.status}`);
-        }
-  }
   await getFriends();
   getTwitterLink();
   filTwitterList = await filteredTwList(twitter);
