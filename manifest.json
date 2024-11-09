@@ -5,7 +5,7 @@
     "description": "なんか適当に作るぜ",
     "content_scripts": [
     {
-        "matches": [ "https://vrchat.com/*"],
+        "matches": [ "https://vrchat.com/home/*"],
         "js": [ "src/js/main.js" ]
     }
     ]
