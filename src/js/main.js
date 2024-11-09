@@ -4,7 +4,8 @@ var token = "";
 var onlineFriendsList = [];
 var offlineFriendsList = [];
 var friendsList = [];
-var twitter = [];
+var twitter = new Array();
+var filTwitterList = [];
 //読み込み終了時リスナー
 window.addEventListener('load', () => getToken(), false);
 
@@ -23,6 +24,8 @@ const getToken = async () => {
         }
   }
   await getFriends();
+  getTwitterLink();
+  filTwitterList = await filteredTwList(twitter);
   test();
 };
 
@@ -31,6 +34,33 @@ const test = () => {
   console.log(onlineFriendsList);
   console.log(offlineFriendsList);
   console.log(friendsList);
+  console.log(twitter);
+  console.log(filTwitterList);
+}
+
+const getTwitterLink = () =>{
+  for(let i = 0; i < friendsList.length; i++){
+    var filteredLinkList = [];
+    var linkList = friendsList[i].bioLinks;
+    if(linkList != null){
+      for(let j = 0; j < linkList.length; j++){
+        if(linkList[j].includes("twitter.com") || linkList[j].includes("x.com")){
+          filteredLinkList.push(linkList[j]);
+        }
+      }
+    }
+    twitter.push([friendsList[i].displayName,filteredLinkList]);
+  }
+}
+
+const filteredTwList = (list) =>{
+  var newList=[];
+  for(let i = 0; i < list.length;i++){
+    if((list[i])[1].length != 0){
+      newList.push(list[i]);
+    }
+  }
+  return newList;
 }
 
 //フレンドリスト取得
