@@ -1,19 +1,45 @@
 const GET_FRIENDS = "https://vrchat.com/api/1/auth/user/friends?n=100";
+//オンラインフレンドリスト
 var onlineFriendsList = [];
+//オフラインフレンドリスト
 var offlineFriendsList = [];
+//フレンドリスト
 var friendsList = [];
+//ツイッターリンクリスト
 var twitter = [];
+//フィルター後のフレンドリスト
 var filTwitterList = [];
+//フレンドリスト最大取得数(オンライン,オフライン別)
+var max =1000;
+
 //読み込み終了時リスナー
-window.addEventListener('load', () => getToken(), false);
+window.addEventListener('load', () => start(), false);
 
 //トークン取得
-const getToken = async () => {
+const start = async () => {
   await getFriends();
-  getTwitterLink();
-  filTwitterList = await filteredTwList(twitter);
+  filteredTwitterLink();
+  filTwitterList = await filteredExistTwList(twitter);
   test();
+  lordTwList();
 };
+
+//ツイッターリストロード
+const lordTwList = () => {
+  var addHtml ='<div id="tw-list">';
+  for(let i=0;i<filTwitterList.length;i++){
+    var value="<p id=tw"+i+">";
+    value += (i+1)+": Name:"+filTwitterList[i][0];
+    var list = filTwitterList[i][1];
+    for(let j=0; j<list.length;j++){
+      value += " Link"+(j+1)+':<a href="'+list[j]+'">' + list[j] + "</a>";
+    }
+    value+="</p><br>"
+    addHtml += value;
+  }
+  addHtml += "</div>";
+  console.log(addHtml);
+}
 
 //フィールド値チェック
 const test = () => {
@@ -24,7 +50,8 @@ const test = () => {
   console.log(filTwitterList);
 }
 
-const getTwitterLink = () =>{
+//ツイッターリンクのリストフィルター
+const filteredTwitterLink = () =>{
   for(let i = 0; i < friendsList.length; i++){
     var filteredLinkList = [];
     var linkList = friendsList[i].bioLinks;
@@ -39,7 +66,8 @@ const getTwitterLink = () =>{
   }
 }
 
-const filteredTwList = (list) =>{
+//リンクが存在するフレンドのみに絞り込み
+const filteredExistTwList = (list) =>{
   var newList=[];
   for(let i = 0; i < list.length;i++){
     if((list[i])[1].length != 0){
@@ -89,7 +117,7 @@ const fetchFriends = async (url) => {
   var elementNum = 100;
   var count = 0;
   var countUrl = url;
-  for(let i=0;i<5;i++){
+  for(let i=0;i<(max/100);i++){
     if(elementNum >= 100){
       const RESPONCE = await fetch(countUrl);
       const JSON_DATA = await RESPONCE.json();
