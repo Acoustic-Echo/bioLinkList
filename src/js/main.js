@@ -78,7 +78,7 @@ const filteredExistTwList = (list) =>{
 }
 
 const test = () =>{
-
+    var testVal = "";
 }
 
 //フレンドリスト取得
