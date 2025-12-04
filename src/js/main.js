@@ -77,6 +77,10 @@ const filteredExistTwList = (list) =>{
   return newList;
 }
 
+const test = () =>{
+    var testVal = "";
+}
+
 //フレンドリスト取得
 const getFriends = async () =>{
   await getOnlineFriends();
