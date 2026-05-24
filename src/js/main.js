@@ -63,6 +63,7 @@ const filteredTwitterLink = () =>{
       }
     }
     twitter.push([friendsList[i].displayName,filteredLinkList]);
+    twitter.push([friendsList[i].displayName,filteredLinkList]);
   }
 }
 
