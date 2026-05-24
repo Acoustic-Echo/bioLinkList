@@ -49,6 +49,8 @@ const test = () => {
   console.log(twitter);
   console.log(filTwitterList);
   console.log(filTwitterList);
+  console.log(filTwitterList);
+  console.log(filTwitterList);
 }
 
 //ツイッターリンクのリストフィルター
