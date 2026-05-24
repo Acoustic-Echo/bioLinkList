@@ -63,6 +63,7 @@ const filteredTwitterLink = () =>{
       }
     }
     twitter.push([friendsList[i].displayName,filteredLinkList]);
+    twitter.push([friendsList[i].displayName,filteredLinkList]);
   }
 }
 
@@ -75,6 +76,10 @@ const filteredExistTwList = (list) =>{
     }
   }
   return newList;
+}
+
+const test = () =>{
+    var testVal = "";
 }
 
 //フレンドリスト取得
