@@ -48,6 +48,9 @@ const test = () => {
   console.log(friendsList);
   console.log(twitter);
   console.log(filTwitterList);
+  console.log(filTwitterList);
+  console.log(filTwitterList);
+  console.log(filTwitterList);
 }
 
 //ツイッターリンクのリストフィルター
